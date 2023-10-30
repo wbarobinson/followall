@@ -23,7 +23,8 @@ CREATE TABLE IF NOT EXISTS users (
     follower_count INTEGER,
     following_count INTEGER,
     following BOOLEAN,
-    followed_by BOOLEAN
+    followed_by BOOLEAN,
+    activeStatus TEXT
 )
 ''')
 
@@ -31,7 +32,6 @@ CREATE TABLE IF NOT EXISTS users (
 def user_data_exists(fid):
     cursor.execute('SELECT 1 FROM users WHERE fid = ?', (fid,))
     return cursor.fetchone() is not None
-    
 # Function to Insert Data into Database (Including activeStatus)
 def insert_user_data(user_data):
     cursor.execute('''

@@ -7,7 +7,7 @@ import os
 # Load environment variables from .env file
 load_dotenv()
 
-# Get the API Key from the environment variable
+# Get the API Key from the environment variable (just create a .env with these variables)
 api_key = os.getenv("NEYNAR_API_KEY")  # Ensure you have your API key in the .env file
 signer_uuid = os.getenv("NEYNAR_FARCASTER_UUID")
 
@@ -57,7 +57,7 @@ def main():
     start_from_id = 1
 
     # Fetch Users with More Than 100 Followers and Not Already Followed, starting from start_from_id
-    cursor.execute('SELECT fid FROM users WHERE fid > ? AND follower_count BETWEEN 25 AND 100 AND following = 0', (start_from_id,))
+    cursor.execute('SELECT fid FROM users WHERE fid > ? AND follower_count BETWEEN 25 AND 100 AND following = 0 AND activeStatus = "active"', (start_from_id,))
     fids_to_follow = [row[0] for row in cursor.fetchall()]
 
     # Follow the Users
