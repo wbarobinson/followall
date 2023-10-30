@@ -7,7 +7,7 @@ import os
 # Load environment variables from .env file
 load_dotenv()
 
-# Get the FID from the environment variable
+# Get the FID from the environment variable (just create a .env with these variables)
 viewer_fid = os.getenv("FARCASTER_DEVELOPER_FID")
 api_key = os.getenv("NEYNAR_API_KEY")
 
@@ -31,15 +31,15 @@ CREATE TABLE IF NOT EXISTS users (
 def user_data_exists(fid):
     cursor.execute('SELECT 1 FROM users WHERE fid = ?', (fid,))
     return cursor.fetchone() is not None
-
-# Function to Insert Data into Database
+    
+# Function to Insert Data into Database (Including activeStatus)
 def insert_user_data(user_data):
     cursor.execute('''
-    INSERT INTO users (fid, username, follower_count, following_count, following, followed_by)
-    VALUES (?, ?, ?, ?, ?, ?)
-    ''', (user_data['fid'], user_data['username'], user_data['followerCount'], 
-          user_data['followingCount'], user_data['viewerContext']['following'], 
-          user_data['viewerContext']['followedBy']))
+    INSERT INTO users (fid, username, follower_count, following_count, following, followed_by, activeStatus)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+    ''', (user_data['fid'], user_data['username'], user_data['followerCount'],
+          user_data['followingCount'], user_data['viewerContext']['following'],
+          user_data['viewerContext']['followedBy'], user_data['activeStatus']))
     conn.commit()
 
 # Example API Call to Fetch User Data
