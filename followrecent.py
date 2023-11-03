@@ -56,8 +56,8 @@ def main():
     # Define the starting point (the user id where it stopped)
     start_from_id = 1
 
-    # Fetch Users with More Than 65 Followers and Not Already Followed, starting from start_from_id
-    cursor.execute('SELECT fid FROM users WHERE fid > ? AND follower_count > 15 AND following_count > 55 AND following = 0', (start_from_id,))
+    # Fetch Users which recently reacted and follow them
+    cursor.execute('SELECT fid FROM users WHERE fid > ? AND recently_active = 1 AND following = 0', (start_from_id,))
     fids_to_follow = [row[0] for row in cursor.fetchall()]
 
     # Follow the Users
